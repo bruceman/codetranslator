@@ -1,0 +1,27 @@
+{
+  "name": "codetranslator",
+  "version": "0.1.0",
+  "description": "An utility tool for text translation in code",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bruceman/codetranslator.git"
+  },
+  "keywords": [
+    "code",
+    "translator",
+    "tools"
+  ],
+  "author": "bruceman",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/bruceman/codetranslator/issues"
+  },
+  "homepage": "https://github.com/bruceman/codetranslator#readme",
+  "devDependencies": {
+    "electron": "^1.6.11"
+  }
+}
