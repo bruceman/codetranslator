@@ -3,6 +3,18 @@
     background: inherit;
 }
 
+[v-cloak] {
+    display: none;
+}
+
+.window {
+    border-radius: 6px;
+    overflow: hidden;
+}
+.sidebar {
+    background-color: #f5f5f4;
+}
+
 /** tabs */
 .tab-content {
     height: 100%;
