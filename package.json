@@ -2,9 +2,9 @@
   "name": "codetranslator",
   "version": "0.1.0",
   "description": "An utility tool for text translation in code",
-  "main": "index.js",
+  "main": "app/main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron --debug=5858 ."
   },
   "repository": {
     "type": "git",

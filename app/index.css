@@ -1,0 +1,21 @@
+/** highlight.js */
+.hljs {
+    background: inherit;
+}
+
+/** tabs */
+.tab-content {
+    height: 100%;
+    position: relative;
+}
+
+.tab-content .source {
+    height: 50%;
+    overflow-y: scroll;
+}
+
+.tab-content .target {
+    height: 50%;
+    overflow-y: scroll;
+    border-top: solid 4px #ddd;
+}
