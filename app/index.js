@@ -8,7 +8,24 @@ const dialog = electron.remote.dialog;
 const XRegExp = require('xregexp');
 const translateApi = require('google-translate-api');
 const langCodes = require('./lang-codes');
+const folder = require('./folder');
 console.log(langCodes);
+
+const demoItem = {name: 'Root', path: 'root', isDir: true, children: [
+  {
+    name: 'Folder1', path: 'folder1', isDir: false, children: []
+  },
+  {
+    name: 'Folder2', path: 'folder2', isDir: true, children: [
+      {
+      name: 'Folder21', path: 'folder21', isDir: false, children: []
+    },
+    {
+      name: 'Folder22', path: 'folder22', isDir: false, children: []
+    }
+    ]
+  }
+]}
 
 const regexWords = XRegExp('\\p{Hangul}+', "u");
 
@@ -25,7 +42,8 @@ var vm = new Vue({
     selectedItem: null,
     transFolders: [],
     //current language code
-    langCode: langCodes[0]
+    langCode: langCodes[0],
+    demoItem: demoItem
   },
   mounted: function () {
     Vue.nextTick(function () {

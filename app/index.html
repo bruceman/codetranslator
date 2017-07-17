@@ -79,10 +79,19 @@
 
             <nav class="nav-group">
               <h5 class="nav-group-title">Folders</h5>
-              <span class="nav-group-item" v-for="item in transFolders" :key="item.id" @click="clickFolder(item)">
-                <span class="icon icon-folder"></span>
-                {{item.name}}
-              </span>
+              <div class="folder">
+                <span class="nav-group-item">
+                  <i class="icon icon-folder"></i>
+                  Src
+                </span>
+                <div class="folder">
+                  <span class="nav-group-item">
+                    <i class="icon icon-folder"></i>
+                    aaa
+                  </span>
+                </div>
+              </div>
+              <folder :item='demoItem'></folder>
             </nav>
           </div>
 
