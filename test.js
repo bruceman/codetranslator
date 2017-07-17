@@ -1,14 +1,14 @@
 const translate = require('google-translate-api');
 const XRegExp = require('xregexp');
 
-// translate('함께 구매하면 좋은 상품', {to: 'en'}).then(res => {
-//     console.log(res.text);
-//     //=> I speak English
-//     console.log(res.from.language.iso);
-//     //=> nl
-// }).catch(err => {
-//     console.error(err);
-// });
+translate('함께 구매하면 좋은 상품', {to: 'en'}).then(res => {
+    console.log(res.text);
+    //=> I speak English
+    console.log(res.from.language.iso);
+    //=> nl
+}).catch(err => {
+    console.error(err);
+});
 
 function isKorea(str, len) {
     if (typeof str !== 'string' || str.length === 0) {

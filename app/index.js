@@ -5,8 +5,12 @@ const fs = require('fs');
 const path = require('path');
 const electron = require('electron');
 const dialog = electron.remote.dialog;
+const XRegExp = require('xregexp');
+const translateApi = require('google-translate-api');
 const langCodes = require('./lang-codes');
 console.log(langCodes);
+
+const regexWords = XRegExp('\\p{Hangul}+', "u");
 
 let uniqueId = 1;
 
@@ -57,7 +61,10 @@ var vm = new Vue({
         if (ext.charAt(0) === '.') {
           ext = ext.substr(1);
         }
-        this.transItems.push({id: getUniqueId(), name: path.basename(filePath), path: filePath, ext: ext, source: data, target: ''});
+
+        this.transItems.push({id: getUniqueId(), name: path.basename(filePath), path: filePath, ext: ext, 
+            source: data, target: ''});
+
         const lastIndex = this.transItems.length - 1;
         this.selectItem(this.transItems[lastIndex], lastIndex);
         
@@ -71,6 +78,8 @@ var vm = new Vue({
 
       this.selectedItem = item;
 
+      this.translateItem(item);
+
       let cssClass = "hljs";
       if (item.ext) {
         cssClass += " " + item.ext;
@@ -80,7 +89,7 @@ var vm = new Vue({
       sourceEditor.innerText = item.source;
       sourceEditor.setAttribute("class", cssClass);
       const targetEditor = document.getElementById("targetEditor");
-      targetEditor.innerText = item.source;
+      // targetEditor.innerText = item.target;
       targetEditor.setAttribute("class", cssClass);
 
       Vue.nextTick(()=>{
@@ -105,6 +114,71 @@ var vm = new Vue({
         //
         console.log(files);
       });
+    },
+
+    translateItem: function (item) {
+      if (!item.source) {
+        return;
+      }
+
+      let words = [];
+
+      XRegExp.forEach(item.source, regexWords, function (obj) {
+          words.push({text: obj[0], index: obj.index, result:''});
+      });
+
+      if (words.length > 0) {
+        this.translateWords(words, ()=>{
+          let target = item.source;
+          for (var i = words.length - 1; i >= 0; i--) {
+            let word = words[i];
+            target = this.spliceString(target, word.index, word.text.length, word.result);
+          }
+
+          item.target = target;
+
+          if (this.selectedItem.id == item.id) {
+            const targetEditor = document.getElementById("targetEditor");
+            targetEditor.innerText = target;
+            hljs.highlightBlock(targetEditor);
+          }
+        });
+      }
+
+    },
+
+    //splice('hello,123', 2, 3, '456') => 'he456,123'
+    spliceString: function (str, start, length, replace) {
+      const before = str.substring(0, start);
+      const after = str.substring(start+length);
+      return before + replace + after;
+    },
+
+    translateWords: function (words, callback) {
+      let delimiter = "::";
+      let arr = [];
+      words.forEach(function (word) {
+         arr.push(word.text);
+      });
+      let str = arr.join(delimiter);
+      console.log(str);
+
+      translateApi(str, {to: 'en'}).then(res => {
+          console.log(res.text);
+          let results = res.text.split(delimiter);
+          results.forEach(function (result, index) {
+            words[index].result = result.trim();
+          });
+          if (callback) {
+            callback(words);
+          }
+          //=> I speak English
+          console.log(words);
+          //=> nl
+      }).catch(err => {
+          console.error(err);
+      });
+
     }
 
   }
