@@ -1,4 +1,6 @@
 const fs = require('fs');
+const path = require('path');
+
 
 Vue.component('folder', {
   render: function (createElement) {
@@ -41,14 +43,33 @@ Vue.component('folder', {
         );
     },
 
-     clickHandler: function (item) {
+    clickHandler: function (item) {
+        let self = this;
         return function () {
-            console.log(item);
+            if (item.isDir) {
+                self.expandFolder(item);
+            } else {
+                self.$emit("selectfile", item);
+            }
         }
-        // fs.readdir(this.item.path, (err, files)=>{
-        //     console.log(files);
-        // });
-        // console.log(item)
+    },
+
+    expandFolder: function (item) {
+        fs.readdir(item.path, (err, files) => {
+            if (!files || files.length === 0) {
+                return;
+            }
+
+            let children = [];
+
+            files.forEach(function (file) {
+                let filePath = path.join(item.path, file);
+                let isDir = fs.lstatSync(filePath).isDirectory();
+                children.push({ name: file, path: filePath, isDir: isDir, children: []});
+            });
+
+            item.children = children;
+        });
     }
 
   }

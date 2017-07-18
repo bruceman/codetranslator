@@ -84,7 +84,7 @@ var vm = new Vue({
             source: data, target: ''});
 
         const lastIndex = this.transItems.length - 1;
-        this.selectItem(this.transItems[lastIndex], lastIndex);
+        this.selectItem(this.transItems[lastIndex]);
         
       });
     },
@@ -96,8 +96,6 @@ var vm = new Vue({
 
       this.selectedItem = item;
 
-      this.translateItem(item);
-
       let cssClass = "hljs";
       if (item.ext) {
         cssClass += " " + item.ext;
@@ -107,13 +105,15 @@ var vm = new Vue({
       sourceEditor.innerText = item.source;
       sourceEditor.setAttribute("class", cssClass);
       const targetEditor = document.getElementById("targetEditor");
-      // targetEditor.innerText = item.target;
+      targetEditor.innerText = 'translating...';
       targetEditor.setAttribute("class", cssClass);
 
       Vue.nextTick(()=>{
         hljs.highlightBlock(sourceEditor);
         hljs.highlightBlock(targetEditor);
       });
+
+      this.translateItem(item);
     },
 
     closeItem: function (item) {
@@ -127,11 +127,8 @@ var vm = new Vue({
       }
     },
 
-    clickFolder: function (item) {
-      fs.readdir(item.path, (err, files)=>{
-        //
-        console.log(files);
-      });
+    selectFileHandler: function (item) {
+      this.processFile(item.path);
     },
 
     translateItem: function (item) {
@@ -161,6 +158,11 @@ var vm = new Vue({
             hljs.highlightBlock(targetEditor);
           }
         });
+
+      } else {
+        const targetEditor = document.getElementById("targetEditor");
+        targetEditor.innerText = item.source;
+        hljs.highlightBlock(targetEditor);
       }
 
     },

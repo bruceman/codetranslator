@@ -79,7 +79,10 @@
 
             <nav class="nav-group">
               <h5 class="nav-group-title">Folders</h5>
-              <div class="folder">
+              <template>
+                <folder :item='item' v-for="(item,index) in transFolders" :key="index" @selectfile="selectFileHandler"></folder>
+              </template>
+              <!-- <div class="folder">
                 <span class="nav-group-item">
                   <i class="icon icon-folder"></i>
                   Src
@@ -90,8 +93,7 @@
                     aaa
                   </span>
                 </div>
-              </div>
-              <folder :item='demoItem'></folder>
+              </div> -->
             </nav>
           </div>
 
