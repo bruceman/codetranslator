@@ -3,6 +3,11 @@
     background: inherit;
 }
 
+/** photon */
+* {
+    -webkit-user-select: inherit;
+}
+
 [v-cloak] {
     display: none;
 }

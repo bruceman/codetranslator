@@ -1,7 +1,7 @@
 const translate = require('google-translate-api');
 const XRegExp = require('xregexp');
 
-translate('함께 구매하면 좋은 상품', {to: 'en'}).then(res => {
+translate('다른 상품들 ||| 브랜드샵 구경할까요 ||| 상품 더보기', {to: 'en'}).then(res => {
     console.log(res.text);
     //=> I speak English
     console.log(res.from.language.iso);
@@ -33,9 +33,9 @@ function isKorea(str, len) {
 // console.log("abcde".match(re)) // null
 // console.log("안녕".match(re)) // ["안", "녕"]
 
-const xregex = XRegExp('\\p{Han}+', "u")
+const xregex = XRegExp('\\p{Han}[\\p{Han}|\\s]*', "u")
 // console.log(xregex.test('abc'));
-const str = "中国 abc 很好 123";
+const str = "中 国 abc 很 好 国  中国国  123 点 ";
 // console.log(xregex.test('함께 abc 좋은 123'));
 // let arr = XRegExp.exec(str, xregex);
 // console.log(arr)

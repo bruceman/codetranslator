@@ -27,7 +27,7 @@ const demoItem = {name: 'Root', path: 'root', isDir: true, children: [
   }
 ]}
 
-const regexWords = XRegExp('\\p{Hangul}+', "u");
+const regexWords = XRegExp('\\p{Hangul}[\\p{Hangul}|\\s]*', "u");
 
 let uniqueId = 1;
 
@@ -105,7 +105,14 @@ var vm = new Vue({
       sourceEditor.innerText = item.source;
       sourceEditor.setAttribute("class", cssClass);
       const targetEditor = document.getElementById("targetEditor");
-      targetEditor.innerText = 'translating...';
+      if (item.target) {
+        //translated
+        targetEditor.innerText = item.target;
+      } else {
+        targetEditor.innerText = 'translating...';
+        this.translateItem(item);
+      }
+      
       targetEditor.setAttribute("class", cssClass);
 
       Vue.nextTick(()=>{
@@ -113,7 +120,6 @@ var vm = new Vue({
         hljs.highlightBlock(targetEditor);
       });
 
-      this.translateItem(item);
     },
 
     closeItem: function (item) {
@@ -139,7 +145,7 @@ var vm = new Vue({
       let words = [];
 
       XRegExp.forEach(item.source, regexWords, function (obj) {
-          words.push({text: obj[0], index: obj.index, result:''});
+          words.push({text: obj[0].trim(), index: obj.index, result:''});
       });
 
       if (words.length > 0) {
@@ -175,7 +181,7 @@ var vm = new Vue({
     },
 
     translateWords: function (words, callback) {
-      let delimiter = "::";
+      let delimiter = " ||| ";
       let arr = [];
       words.forEach(function (word) {
          arr.push(word.text);
@@ -199,6 +205,11 @@ var vm = new Vue({
           console.error(err);
       });
 
+    },
+
+    showPopup: function () {
+      let win = window.open("popup.html");
+      console.log(win);
     }
 
   }
