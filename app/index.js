@@ -83,6 +83,13 @@ var vm = new Vue({
 
         processFile: function (filePath) {
             console.log('process file: ' + filePath);
+            let transItem = this.findTransItem(filePath);
+            //file has been opened
+            if (transItem) {
+                this.selectItem(transItem);
+                return;
+            }
+
             fs.readFile(filePath, 'utf8', (err, data) => {
                 let ext = path.extname(filePath);
                 if (ext.charAt(0) === '.') {
@@ -98,6 +105,14 @@ var vm = new Vue({
                 this.selectItem(this.transItems[lastIndex]);
 
             });
+        },
+
+        findTransItem: function(filePath) {
+            let arr = this.transItems.filter(function(item) {
+                return item.path == filePath;
+            });
+
+            return arr.length>0 ? arr[0] : null;
         },
 
         selectItem: function (item) {

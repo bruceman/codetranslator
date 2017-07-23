@@ -10,5 +10,5 @@
     "from": "Korea",
     "to": "English"
   },
-  "engine": "google"
+  "engine": "custom"
 }

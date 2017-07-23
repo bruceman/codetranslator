@@ -42,7 +42,7 @@ var vm = new Vue({
                 files.forEach((file) => {
                     let ext = path.extname(file);
                     if (ext == extension) {
-                        this.transFiles.push({name: file, path: path.join(transDir, file), checked: applyTranslation.indexOf(file) > 0});
+                        this.transFiles.push({name: file, path: path.join(transDir, file), checked: applyTranslation.indexOf(file) >= 0});
                     }
                 });
                 console.log(this.transFiles);
