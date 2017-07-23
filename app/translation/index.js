@@ -12,8 +12,6 @@ const itemDelimiter = ' ||| ';
 class Translation {
     constructor(customTranslation) {
         this.setCustomTranslation(customTranslation);
-        console.log('translation init...');
-        console.log(this._customTranslation);
     }
 
     /**
@@ -42,11 +40,11 @@ class Translation {
             if (this._customTranslation) {
                 // replace custom translation firstly
                 for(let k in this._customTranslation) {
-                    debugger;
                     result = result.replace(k, this._customTranslation[k]);
-                    resolve(result); // remove these
-                    return;
                 }
+
+                resolve(result); //todo: remove these
+                return;
             }
 
             let transItems = this._collectTrnasItems(result);

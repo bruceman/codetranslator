@@ -2,7 +2,7 @@ const fs = require('fs');
 
 class PropertyParser {
     /**
-     * Read 
+     * Read java like property file and return key value object
      * 
      * @param {string} filePath 
      */
@@ -30,7 +30,7 @@ class PropertyParser {
     }
 
     write(filePath, props) {
-
+        
     }
 }
 

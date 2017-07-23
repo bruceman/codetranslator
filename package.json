@@ -25,6 +25,7 @@
     "electron": "^1.6.11"
   },
   "dependencies": {
+    "format-json": "^1.0.3",
     "google-translate-api": "^2.3.0",
     "promise": "^8.0.1",
     "xregexp": "^3.2.0"

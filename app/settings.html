@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Settings</title>
+    <link rel="stylesheet" href="../libs/photon/css/photon.min.css">
+    <link rel="stylesheet" href="settings.css">
+</head>
+<body>
+    <div id="app" class="window" v-cloak>
+        <div class="window-content">
+            <div class="pane-group">
+                <!-- left sidebar -->
+                <div class="pane pane-sm sidebar">
+                    <ul class="quick-links">
+                        <li><a href="#">Custom Translation</a></li>
+                        <li><a href="#">Translation Language</a></li>
+                        <li><a href="#">Translation Engine</a></li>
+                    </ul>
+                </div>
+
+                <!-- settings -->
+                <div class="pane settings">
+                    <div class="setting-item">
+                        <h4 class="setting-header">
+                            Custom Translation
+                        </h4>
+                        <div class="setting-content">
+                            <div class="checkbox" v-for="(transFile, index) in transFiles" :key='index'>
+                                <label>
+                                <input type="checkbox" v-model="transFile.checked"> {{transFile.name}} - ( {{transFile.path}} )
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <h4 class="setting-header">
+                            Translation Language
+                        </h4>
+                        <div class="setting-content">
+                            <span>From Language: </span>
+                            <select v-model="fromLang">
+                                <option v-for="item in langs" :value="item.lang" :key="item.lang">{{item.lang}}</option>
+                            </select>
+                            <span style="margin-left:10px">To Language: </span>
+                            <select v-model="toLang">
+                                <option v-for="item in langs" :value="item.lang" :key="item.lang">{{item.lang}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <h4 class="setting-header">
+                            Translation Engine
+                        </h4>
+                        <div class="setting-content">
+                            <span>Default Engine: </span>
+                            <select v-model="defaultEngine">
+                                <option v-for="item in engines" :value="item.value" :key="item.value">{{item.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+             </div>
+        </div>
+    </div>
+    
+    <script src="../libs/vue/vue.js"></script>
+    <script src="settings.js"></script>
+</body>
+</html>

@@ -25,9 +25,12 @@
             <button class="btn btn-default">
               <span class="icon icon-cw"></span>
             </button>
+            <button class="btn btn-default" title="Settings" @click="openSettings">
+              <span class="icon icon-cog"></span>
+            </button>
           </div>
 
-          <div class="btn-group">
+          <!-- <div class="btn-group">
             <button class="btn btn-default" title="Add Rules" @click="showPopup">
               <span class="icon icon-plus-circled"></span>
             </button>
@@ -37,18 +40,16 @@
             <button class="btn btn-default" title="Manage Rules">
               <span class="icon icon-cog"></span>
             </button>
-          </div>
+          </div> -->
 
           <span class="trans">
-            <button class="btn btn-default btn-dropdown pjs-popover-trigger">
-              <!-- <span class="icon icon-cloud icon-text"></span> -->
-              {{langCode.lang}}
-            </button>
+            <select v-model="fromLang.code">
+              <option v-for="item in langs" :value="item.code" :key="item.lang">{{item.lang}}</option>
+            </select>
             <span class="icon icon-right"></span>
-            <button class="btn btn-default btn-dropdown pjs-popover-trigger">
-              <!-- <span class="icon icon-cloud icon-text"></span> -->
-              English
-            </button>
+            <select v-model="toLang.code">
+              <option v-for="item in langs" :value="item.code" :key="item.lang">{{item.lang}}</option>
+            </select>
 
             <button class="btn btn-default">
               <span class="icon icon-rocket icon-text"></span>
@@ -56,11 +57,9 @@
             </button>
           </span>
 
-          <div class="btn-group pull-right">
-            <button class="btn btn-default btn-dropdown pjs-popover-trigger">
-              <span class="icon icon-search icon-text"></span>
-              Google Translate
-            </button>
+          <div class="search pull-right">
+            <span class="icon icon-search icon-text"></span>
+            <input type="text">
           </div>
         </div>
       </header>

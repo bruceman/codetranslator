@@ -5,12 +5,11 @@ const fs = require('fs');
 const path = require('path');
 const electron = require('electron');
 const dialog = electron.remote.dialog;
-const langCodes = require('./lang-codes');
 const folder = require('./folder');
 const Translation = require('./translation')
 const config = require('../conf/config.json');
+const langModule = require('../conf/langs');
 const propertyParser = require('./util/property-parser');
-
 
 //config dir path
 const configPath = path.join(__dirname, '../conf');
@@ -28,13 +27,12 @@ var vm = new Vue({
         transItems: [],
         selectedItem: null,
         transFolders: [],
-        //current language code
-        langCode: langCodes[0]
+        langs: langModule.langs,
+        fromLang: langModule.getLang(config.language.from) || {},
+        toLang: langModule.getLang(config.language.to) || {}
     },
     mounted: function () {
         this.initTranslation(config.translation);
-        Vue.nextTick(function () {
-        })
     },
     methods: {
         initTranslation: function (options) {
@@ -166,8 +164,8 @@ var vm = new Vue({
 
         },
 
-        showPopup: function () {
-            let win = window.open("popup.html");
+        openSettings: function () {
+            let win = window.open("settings.html");
             console.log(win);
         }
 

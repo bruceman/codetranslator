@@ -1,7 +1,14 @@
 {
-    "translation": {
-        "apply": [
-            "test.txt"
-        ]
-    }
+  "translation": {
+    "extension": ".txt",
+    "apply": [
+      "english.txt",
+      "test.txt"
+    ]
+  },
+  "language": {
+    "from": "Korea",
+    "to": "English"
+  },
+  "engine": "google"
 }

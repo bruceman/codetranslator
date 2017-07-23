@@ -1,0 +1,34 @@
+/** photon */
+* {
+    -webkit-user-select: inherit;
+}
+
+[v-cloak] {
+    display: none;
+}
+
+.quick-links {
+    padding: 20px;
+    margin: 0 0 0 20px;
+}
+
+.quick-links li {
+    padding-bottom: 10px;
+}
+
+.quick-links a {
+    color: #333;
+    text-decoration: none;
+}
+
+.settings {
+    padding: 0 20px;
+}
+
+.setting-header {
+    border-bottom: solid 1px #ddd;
+}
+
+.setting-content .checkbox {
+    margin: 0;
+}
