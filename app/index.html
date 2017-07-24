@@ -43,15 +43,15 @@
           </div> -->
 
           <span class="trans">
-            <select v-model="fromLang.code">
+            <select v-model="fromLang">
               <option v-for="item in langs" :value="item.code" :key="item.lang">{{item.lang}}</option>
             </select>
             <span class="icon icon-right"></span>
-            <select v-model="toLang.code">
+            <select v-model="toLang">
               <option v-for="item in langs" :value="item.code" :key="item.lang">{{item.lang}}</option>
             </select>
 
-            <button class="btn btn-default">
+            <button class="btn btn-default" @click="translate">
               <span class="icon icon-rocket icon-text"></span>
               Translate
             </button>

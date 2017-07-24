@@ -43,8 +43,9 @@ class Translation {
                     result = result.replace(k, this._customTranslation[k]);
                 }
 
-                resolve(result); //todo: remove these
-                return;
+                // resolve(result); //todo: remove these
+                // return;
+                console.log(result);
             }
 
             let transItems = this._collectTrnasItems(result);
@@ -54,16 +55,18 @@ class Translation {
                 return;
             }
 
-            this._translateItems(transItems, from, to).then(function () {
+            this._translateItems(transItems, from, to).then(() => {
                 for (var i = transItems.length - 1; i >= 0; i--) {
                     let item = transItems[i];
-                    result = this.spliceString(result, item.index, item.text.length, item.result);
+                    result = this._spliceString(result, item.index, item.text.length, item.result);
                 }
+                console.log(result);
                 resolve(result);
 
-            }).fail(function(err) {
+            }, (err) => {
+                console.err(err);
                 reject(err);
-            })
+            });
 
         });
     }

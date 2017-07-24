@@ -42,11 +42,11 @@
                         <div class="setting-content">
                             <span>From Language: </span>
                             <select v-model="fromLang">
-                                <option v-for="item in langs" :value="item.lang" :key="item.lang">{{item.lang}}</option>
+                                <option v-for="item in langs" :value="item.code" :key="item.lang">{{item.lang}}</option>
                             </select>
                             <span style="margin-left:10px">To Language: </span>
                             <select v-model="toLang">
-                                <option v-for="item in langs" :value="item.lang" :key="item.lang">{{item.lang}}</option>
+                                <option v-for="item in langs" :value="item.code" :key="item.lang">{{item.lang}}</option>
                             </select>
                         </div>
                     </div>

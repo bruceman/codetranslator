@@ -7,8 +7,8 @@
     ]
   },
   "language": {
-    "from": "Korea",
-    "to": "English"
+    "from": "ko",
+    "to": "en"
   },
   "engine": "custom"
 }

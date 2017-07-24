@@ -28,8 +28,8 @@ var vm = new Vue({
         selectedItem: null,
         transFolders: [],
         langs: langModule.langs,
-        fromLang: langModule.getLang(config.language.from) || {},
-        toLang: langModule.getLang(config.language.to) || {}
+        fromLang: config.language.from,
+        toLang: config.language.to || {}
     },
     mounted: function () {
         this.initTranslation(config.translation);
@@ -163,12 +163,18 @@ var vm = new Vue({
             this.processFile(item.path);
         },
 
+        translate: function () {
+            if (this.selectedItem) {
+                this.translateItem(this.selectedItem);
+            }
+        },
+
         translateItem: function (item) {
             if (!item.source) {
                 return;
             }
 
-            this.translation.translate(item.source, '', 'en').then((result) => {
+            this.translation.translate(item.source, this.fromLang || '', this.toLang || 'en').then((result) => {
                 item.target = result;
                 if (this.selectedItem.id == item.id) {
                     const targetEditor = document.getElementById("targetEditor");
