@@ -19,9 +19,9 @@ const langs = [
     }
 ];
 
-function getLang(name) {
+function getLang(code) {
     for(let i=0; i<langs.length; i++) {
-        if (langs[i].lang == name) {
+        if (langs[i].code == code) {
             return langs[i];
         }
     }

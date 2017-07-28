@@ -1,117 +1,76 @@
 const fs = require('fs');
 const path = require('path');
-const XRegExp = require('xregexp');
-const translateApi = require('google-translate-api');
 const Promise = require('promise');
+const CustomEngine = require('./custom');
+const GoogleEngine = require('./google');
+
+/**
+ * all avaiable translate engines
+ */
+const engines = [
+    {name: 'Custom Translate', value: 'custom'},
+    {name: 'Google Translate', value: 'google'},
+    {name: 'Cusotm + Google Translate', value: 'custom,google'}
+];
+
+const engineMap = {
+    'custom': CustomEngine,
+    'google': GoogleEngine
+};
 
 
 
-const regexTransItem = XRegExp('\\p{Han}[\\p{Han}|\\s]*', "u");
-const itemDelimiter = ' ||| ';
 
 class Translation {
-    constructor(customTranslation) {
-        this.setCustomTranslation(customTranslation);
+    
+    constructor(config) {
+        this._config = config || {};
+        this.setEngine(config.engine || 'custom');
+    }
+
+    setEngine(engine) {
+        this._engine = engine;
     }
 
     /**
-     * cusotm translation object
-     * 
-     * example: {key1:value1, key2:value2}
-     * 
-     * @param {object} customTranslation
+     * Get engines for given value
+     *
+     * @return array of engine class
      */
-    setCustomTranslation(customTranslation) {
-        this._customTranslation = customTranslation || {};
+    _getEngines(value) {
+        if (!value) {
+            return null;
+        }
+
+        return value.split(',').map(function (item) {
+            return new engineMap[item]();
+        });
     }
 
-    /**
-     * translate string 
-     * 
-     * @param {string} source  
-     * @param {string} from 
-     * @param {stirng} to 
-     */
-    translate(source, from, to) {
-        // return promise
+
+    translate(source, from , to) {
+        let engines = engineModule.getEngines(this._engine);
+        // no avaialbe engine
+        if (!engines || engines.length === 0) {
+            Promise.resolve(source);
+            return;
+        }
+
         return new Promise((resolve, reject) => {
-            let result = source;
-
-            if (this._customTranslation) {
-                // replace custom translation firstly
-                for(let k in this._customTranslation) {
-                    result = result.replace(k, this._customTranslation[k]);
+            let index = 0;
+            let through = function (result) {
+                if (index == engines.length-1) {
+                    resolve(result);
+                } else {
+                    engines[++index].translate(result, from, to).then(through);
                 }
+            };
 
-                // resolve(result); //todo: remove these
-                // return;
-                console.log(result);
-            }
-
-            let transItems = this._collectTrnasItems(result);
-            // no translation
-            if (transItems.length === 0) {
-                resolve(result);
-                return;
-            }
-
-            this._translateItems(transItems, from, to).then(() => {
-                for (var i = transItems.length - 1; i >= 0; i--) {
-                    let item = transItems[i];
-                    result = this._spliceString(result, item.index, item.text.length, item.result);
-                }
-                console.log(result);
-                resolve(result);
-
-            }, (err) => {
-                console.err(err);
-                reject(err);
-            });
-
+            engines[0].translate(source, from, to).then(through);
         });
     }
 
-    //splice('hello,123', 2, 3, '456') => 'he456,123'
-    _spliceString(str, start, length, replace) {
-      const before = str.substring(0, start);
-      const after = str.substring(start+length);
-      return before + replace + after;
-    }
-
-    _translateItems(transItems, from, to) {
-        return new Promise((resolve, reject) => {
-            let items = transItems.map(function (item) {
-                return item.text;
-            });
-
-            let transtr = items.join(itemDelimiter);
-            console.log(transtr);
-
-            translateApi(transtr, {from, to}).then(res => {
-                console.log(res.text);
-                let results = res.text.split(itemDelimiter);
-                results.forEach(function (result, index) {
-                    transItems[index].result = result.trim();
-                });
-                resolve(transItems);
-
-            }).catch(err => {
-                reject(err);
-            });
-        });
-        
-    }
-
-    _collectTrnasItems(source) {
-        let transItems = [];
-
-        XRegExp.forEach(source, regexTransItem, function (obj) {
-            transItems.push({text: obj[0].trim(), index: obj.index, result:''});
-        });
-
-        return transItems;
-    }
-}
+} 
 
 
 

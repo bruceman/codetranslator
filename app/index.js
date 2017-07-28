@@ -23,7 +23,7 @@ function getUniqueId() {
 var vm = new Vue({
     el: '#app',
     data: {
-        translation: new Translation(),
+        translation: new Translation(config.engine),
         transItems: [],
         selectedItem: null,
         transFolders: [],
