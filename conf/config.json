@@ -2,13 +2,12 @@
   "translation": {
     "extension": ".txt",
     "apply": [
-      "english.txt",
-      "test.txt"
+      "english.txt"
     ]
   },
   "language": {
     "from": "ko",
     "to": "en"
   },
-  "engine": "custom"
+  "engine": "custom,google"
 }

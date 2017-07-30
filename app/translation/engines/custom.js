@@ -1,4 +1,8 @@
 const Promise = require('promise');
+const configure = require('../../util/configure');
+const propertyEditor = require('../../util/property-editor');
+// custom translation folder path
+const translationPath = path.join(__dirname, '../../../conf/translation');
 
 /**
  * Translate engine using custom translation rules
@@ -7,8 +11,16 @@ class CustomEngine {
     /**
      * constructor
      */
-    constructor(customTranslation) {
-        this.setCustomTranslation(customTranslation);
+    constructor() {
+        const apply = configure.translation.apply;
+        
+        if (apply && apply.length>0) {
+            const filePaths = apply.map(function (file) {
+                return path.join(translationPath, file);
+            });
+
+            this.setCustomTranslation(this._readCustomTranslation(filePaths));
+        }
     }
 
     /**
@@ -41,6 +53,22 @@ class CustomEngine {
             resolve(result);
 
         });
+    }
+
+    /**
+     * read custom translation data from files
+     * 
+     * @param {array} filePaths 
+     */
+    _readCustomTranslation(filePaths) {
+        const customTranslation = {};
+
+        filePaths.forEach(function (filePath) {
+            let props = propertyEditor.read(filePath);
+            Object.assign(customTranslation, props);
+        });
+
+        return customTranslation;
     }
 }
 

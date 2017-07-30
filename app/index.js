@@ -6,10 +6,9 @@ const path = require('path');
 const electron = require('electron');
 const dialog = electron.remote.dialog;
 const folder = require('./folder');
-const Translation = require('./translation')
-const config = require('../conf/config.json');
-const langModule = require('../conf/langs');
-const propertyParser = require('./util/property-parser');
+const translation = require('./translation')
+const configure = require('./util/configure');
+const langModule = require('./langs');
 
 //config dir path
 const configPath = path.join(__dirname, '../conf');
@@ -23,42 +22,18 @@ function getUniqueId() {
 var vm = new Vue({
     el: '#app',
     data: {
-        translation: new Translation(config.engine),
+        translator: new translation.Translator(),
         transItems: [],
         selectedItem: null,
         transFolders: [],
         langs: langModule.langs,
-        fromLang: config.language.from,
-        toLang: config.language.to || {}
+        fromLang: configure.language.from,
+        toLang: configure.language.to
     },
     mounted: function () {
-        this.initTranslation(config.translation);
+        // todo
     },
     methods: {
-        initTranslation: function (options) {
-            let customTranslation = null;
-            if (options.apply && options.apply.length > 0) {
-                let basePath = path.join(configPath, 'translation');
-                let filePaths = options.apply.map(function (file) {
-                    return path.join(basePath, file);
-                });
-                customTranslation = this.readyCustomTranslation(filePaths);
-            }
-            this.translation = new Translation(customTranslation);
-
-        },
-
-        readyCustomTranslation: function (filePaths) {
-            console.log(filePaths);
-            let customTranslation = {};
-            filePaths.forEach(function (filePath) {
-                let props = propertyParser.read(filePath);
-                Object.assign(customTranslation, props);
-            });
-            console.log(customTranslation);
-            return customTranslation;
-        },
-
         openFolders: function () {
             dialog.showOpenDialog({ properties: ['openDirectory', 'multiSelections'] }, (filePaths) => {
                 if (filePaths) {
@@ -174,7 +149,7 @@ var vm = new Vue({
                 return;
             }
 
-            this.translation.translate(item.source, this.fromLang || '', this.toLang || 'en').then((result) => {
+            this.translator.translate(item.source, this.fromLang || '', this.toLang || 'en').then((result) => {
                 item.target = result;
                 if (this.selectedItem.id == item.id) {
                     const targetEditor = document.getElementById("targetEditor");
@@ -183,6 +158,10 @@ var vm = new Vue({
                 }
             });
 
+        },
+
+        refresh: function () {
+            window.location.reload();
         },
 
         openSettings: function () {

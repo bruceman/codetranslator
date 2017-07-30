@@ -1,10 +1,8 @@
 const XRegExp = require('xregexp');
 const Promise = require('promise');
 const googleTranslate = require('google-translate-api');
-const langModule = require('../../conf/langs');
+const langModule = require('../../langs');
 
-
-// const regexTransItem = XRegExp('\\p{Han}[\\p{Han}|\\s]*', "u");
 const DELIMITER = ' ,,, ';
 
 class GoogleEngine {

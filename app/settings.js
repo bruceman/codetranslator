@@ -1,14 +1,11 @@
 const fs = require('fs');
 const path = require('path');
 const electron = require('electron');
-const Translation = require('./translation')
+const translation = require('./translation')
+const langModule = require('./langs');
 const config = require('../conf/config.json');
-const langModule = require('../conf/langs');
-const propertyParser = require('./util/property-parser');
-const translateEngine = require('./translation/engine');
-const formatJson = require('format-json');
+const propertyEditor = require('./util/property-editor');
 
-console.log(formatJson.plain(config));
 
 //config dir path
 const configPath = path.join(__dirname, '../conf');
@@ -23,7 +20,7 @@ var vm = new Vue({
         langs: langModule.langs,
         fromLang: config.language.from,
         toLang: config.language.to,
-        engines: translateEngine.engines,
+        engines: translation.engines,
         defaultEngine: config.engine
     },
     mounted: function () {
@@ -59,8 +56,7 @@ var vm = new Vue({
             config.language.from = this.fromLang;
             config.language.to = this.toLang;
             config.engine = this.defaultEngine;
-            console.log(formatJson.plain(config));
-            fs.writeFileSync(path.join(configPath, "config.json"), formatJson.plain(config));
+            propertyEditor.write(path.join(configPath, "config.json"), config);
         }
     }
 

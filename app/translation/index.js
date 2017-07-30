@@ -1,8 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 const Promise = require('promise');
-const CustomEngine = require('./custom');
-const GoogleEngine = require('./google');
+const CustomEngine = require('./engines/custom');
+const GoogleEngine = require('./engines/google');
+const configure = require('../util/configure');
 
 /**
  * all avaiable translate engines
@@ -19,19 +20,7 @@ const engineMap = {
 };
 
 
-
-
-class Translation {
-    
-    constructor(config) {
-        this._config = config || {};
-        this.setEngine(config.engine || 'custom');
-    }
-
-    setEngine(engine) {
-        this._engine = engine;
-    }
-
+class Translator {
     /**
      * Get engines for given value
      *
@@ -49,7 +38,7 @@ class Translation {
 
 
     translate(source, from , to) {
-        let engines = engineModule.getEngines(this._engine);
+        let engines = this._getEngines(configure.engine);
         // no avaialbe engine
         if (!engines || engines.length === 0) {
             Promise.resolve(source);
@@ -66,13 +55,14 @@ class Translation {
                 }
             };
 
+            //trigger first translate engine to run
             engines[0].translate(source, from, to).then(through);
         });
     }
 
 } 
 
-
-
-
-module.exports = Translation;
+module.exports = {
+    Translator,
+    engines
+};

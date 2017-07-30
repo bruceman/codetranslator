@@ -1,6 +1,7 @@
 const fs = require('fs');
+const formatJson = require('format-json');
 
-class PropertyParser {
+class PropertyEditor {
     /**
      * Read java like property file and return key value object
      * 
@@ -30,8 +31,12 @@ class PropertyParser {
     }
 
     write(filePath, props) {
-        
+        if (!filePath) {
+            return;
+        }
+
+        fs.writeFileSync(filePath, formatJson.plain(props));
     }
 }
 
-module.exports = new PropertyParser();
+module.exports = new PropertyEditor();
