@@ -3,7 +3,7 @@ const Promise = require('promise');
 const googleTranslate = require('google-translate-api');
 const langModule = require('../../langs');
 
-const DELIMITER = ',,,';
+const DELIMITER = "\n";
 
 class GoogleEngine {
     /**
