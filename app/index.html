@@ -57,7 +57,7 @@
           <div class="pane pane-sm sidebar">
             <nav class="nav-group">
               <h5 class="nav-group-title">Files</h5>
-              <span class="nav-group-item" :class="{active: item.id == selectedItem.id}" v-for="item in transItems" :key="item.id" @click="selectItem(item)">
+              <span class="nav-group-item" :class="{active: item.id == selectedItem.id}" v-for="item in transItems" :key="item.id" :title="item.name" @click="selectItem(item)">
                 <span class="icon icon-doc-text"></span>
                 {{item.name}}
               </span>

@@ -30,7 +30,6 @@ class GoogleEngine {
                     let item = transItems[i];
                     result = this._spliceString(result, item.index, item.text.length, item.result || item.text);
                 }
-                console.log(result);
                 resolve(result);
 
             }, (err) => {

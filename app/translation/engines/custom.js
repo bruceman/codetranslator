@@ -47,7 +47,6 @@ class CustomEngine {
                     result = result.replace(k, this._customTranslation[k]);
                 }
 
-                console.log(result);
             }
 
             resolve(result);

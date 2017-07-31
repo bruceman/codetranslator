@@ -22,6 +22,9 @@ Vue.component('folder', {
                     'style': {
                         'paddingLeft': (25 + 10 * level) + 'px'
                     },
+                    'attrs': {
+                        'title': item.name
+                    },
                     'on': {
                         'click': this.clickHandler(item)
                     }

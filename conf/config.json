@@ -7,8 +7,8 @@
     ]
   },
   "language": {
-    "from": "en",
-    "to": "zh-cn"
+    "from": "ko",
+    "to": "en"
   },
   "engine": "custom,google"
 }
