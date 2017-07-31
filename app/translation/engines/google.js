@@ -3,7 +3,7 @@ const Promise = require('promise');
 const googleTranslate = require('google-translate-api');
 const langModule = require('../../langs');
 
-const DELIMITER = ' ,,, ';
+const DELIMITER = ',,,';
 
 class GoogleEngine {
     /**
@@ -28,7 +28,7 @@ class GoogleEngine {
             this._translateItems(transItems, from, to).then(() => {
                 for (var i = transItems.length - 1; i >= 0; i--) {
                     let item = transItems[i];
-                    result = this._spliceString(result, item.index, item.text.length, item.result);
+                    result = this._spliceString(result, item.index, item.text.length, item.result || item.text);
                 }
                 console.log(result);
                 resolve(result);

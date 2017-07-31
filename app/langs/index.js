@@ -10,7 +10,7 @@ const langs = [
     {
         "lang": "English",
         "code": "en",
-        "match": /[a-zA-Z]+/
+        "match": /[a-zA-Z][a-zA-Z \t]*/
     },
     {
         "lang": "简体中文",
