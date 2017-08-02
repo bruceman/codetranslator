@@ -52,10 +52,10 @@
           </div>
 
           <div class="btn-group">
-            <button class="btn btn-default active" title="Original Content">
+            <button class="btn btn-default" :class="{active: selectedItem && showOriginal}" title="Original Content" @click="showOriginal=!showOriginal">
               Original
             </button>
-            <button class="btn btn-default" title="Translated Content">
+            <button class="btn btn-default" :class="{active: selectedItem && showTranslated}" title="Translated Content" @click="showTranslated=!showTranslated">
               Translated
             </button>
           </div>
@@ -84,18 +84,6 @@
               <template>
                 <folder :item='item' v-for="(item,index) in transFolders" :key="index" @selectfile="selectFileHandler"></folder>
               </template>
-              <!-- <div class="folder">
-                <span class="nav-group-item">
-                  <i class="icon icon-folder"></i>
-                  Src
-                </span>
-                <div class="folder">
-                  <span class="nav-group-item">
-                    <i class="icon icon-folder"></i>
-                    aaa
-                  </span>
-                </div>
-              </div> -->
             </nav>
           </div>
 
@@ -104,14 +92,14 @@
             <div class="tab-group">
               <div class="tab-item" :class="{active: item.id == selectedItem.id}" v-for="item in transItems" :key="item.id" @click="selectItem(item)">
                 <span class="icon icon-cancel icon-close-tab" @click.stop="closeItem(item)"></span>
-                {{item.name}}
+                {{item.name}} {{item.target && '- (Translated)'}}
               </div>
             </div>
             <div class="tab-content" v-show="selectedItem">
-              <div class="source">
+              <div class="source" v-show="showOriginal">
                 <pre><code id="sourceEditor"></code></pre>
               </div>
-              <div class="target">
+              <div class="target" v-show="showTranslated">
                 <pre><code id="targetEditor"></code></pre>
               </div>
             </div>

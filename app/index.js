@@ -28,7 +28,9 @@ var vm = new Vue({
         transFolders: [],
         langs: langModule.langs,
         fromLang: configure.language.from,
-        toLang: configure.language.to
+        toLang: configure.language.to,
+        showOriginal: true,
+        showTranslated: true
     },
     mounted: function () {
         // todo

@@ -41,15 +41,15 @@
 .tab-content {
     height: 100%;
     position: relative;
+    display: flex;
+    flex-direction: column
 }
 
 .tab-content .source {
-    height: 50%;
     overflow-y: scroll;
 }
 
 .tab-content .target {
-    height: 50%;
     overflow-y: scroll;
     border-top: solid 4px #ddd;
 }
