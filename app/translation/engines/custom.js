@@ -40,13 +40,21 @@ class CustomEngine {
     translate(source, from, to) {
         // return promise
         return new Promise((resolve, reject) => {
-            let result = source;
+            let target = source;
+            let result = {source: source, target: target, details:[]};
 
             if (this._customTranslation) {
                 for(let k in this._customTranslation) {
-                    result = result.replace(k, this._customTranslation[k]);
+                    let v = this._customTranslation[k];
+                    // save translated items
+                    if (target.indexOf(k) >= 0) {
+                        result.details[k] = v;
+                    }
+
+                    target = target.replace(k, v);
                 }
 
+                result.target = target;
             }
 
             resolve(result);

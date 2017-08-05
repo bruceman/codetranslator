@@ -41,17 +41,21 @@ class Translator {
         let engines = this._getEngines(configure.engine);
         // no avaialbe engine
         if (!engines || engines.length === 0) {
-            Promise.resolve(source);
+            Promise.resolve({source:source, target: source, details: []});
             return;
         }
 
         return new Promise((resolve, reject) => {
             let index = 0;
+            let details = {};
             let through = function (result) {
+                // concat details
+                Object.assign(details, result.details);
+
                 if (index == engines.length-1) {
-                    resolve(result);
+                    resolve({source: source, target: result.target, details: details});
                 } else {
-                    engines[++index].translate(result, from, to).then(through);
+                    engines[++index].translate(result.target, from, to).then(through);
                 }
             };
 

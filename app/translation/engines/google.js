@@ -16,9 +16,10 @@ class GoogleEngine {
     translate(source, from, to) {
         // return promise
         return new Promise((resolve, reject) => {
-            let result = source;
+            let target = source;
+            let result = {source: source, target: target, details:{}};
 
-            let transItems = this._collectTrnasItems(result, from);
+            let transItems = this._collectTrnasItems(source, from);
             // no translation
             if (transItems.length === 0) {
                 resolve(result);
@@ -28,8 +29,11 @@ class GoogleEngine {
             this._translateItems(transItems, from, to).then(() => {
                 for (var i = transItems.length - 1; i >= 0; i--) {
                     let item = transItems[i];
-                    result = this._spliceString(result, item.index, item.text.length, item.result || item.text);
+                    result.details[item.text] = item.result || item.text;
+                    target = this._spliceString(target, item.index, item.text.length, item.result || item.text);
                 }
+                
+                result.target = target;
                 resolve(result);
 
             }, (err) => {

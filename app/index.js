@@ -152,10 +152,13 @@ var vm = new Vue({
             }
 
             this.translator.translate(item.source, this.fromLang || '', this.toLang || 'en').then((result) => {
-                item.target = result;
+                item.target = result.target;
+                item.details = result.details;
+                console.log(result);
+                
                 if (this.selectedItem.id == item.id) {
                     const targetEditor = document.getElementById("targetEditor");
-                    targetEditor.innerText = result || item.source;
+                    targetEditor.innerText = item.target || item.source;
                     hljs.highlightBlock(targetEditor);
                 }
             });
@@ -164,6 +167,15 @@ var vm = new Vue({
 
         refresh: function () {
             window.location.reload();
+        },
+
+        openTransDetails: function () {
+            let win = window.open("trans-details.html");
+            setTimeout(() => {
+                 win.postMessage(this.selectedItem);
+            }, 200);
+           
+            console.log(win);
         },
 
         openSettings: function () {
