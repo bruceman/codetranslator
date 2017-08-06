@@ -14,13 +14,14 @@ const langModule = require('./langs');
 const configPath = path.join(__dirname, '../conf');
 const customTranslationPath = path.join(configPath, "translation");
 
+let transDetailsWindow = null;
+let settingsWindow = null;
+
 let uniqueId = 1;
 
 function getUniqueId() {
     return uniqueId++;
 }
-
-let transDetailsWindow = null;
 
 var vm = new Vue({
     el: '#app',
@@ -144,9 +145,12 @@ var vm = new Vue({
         },
 
         translate: function () {
-            if (this.selectedItem) {
-                this.translateItem(this.selectedItem);
+            if (!this.selectedItem) {
+                alert("Plase select a file firstly");
+                return;
             }
+
+            this.translateItem(this.selectedItem);
         },
 
         translateItem: function (item) {
@@ -212,8 +216,11 @@ var vm = new Vue({
         },
 
         openSettings: function () {
-            let win = window.open("settings.html");
-            console.log(win);
+            if (!settingsWindow || settingsWindow.closed) {
+                settingsWindow = window.open("settings.html");
+            }
+
+            settingsWindow.focus();
         }
 
     }

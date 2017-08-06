@@ -33,7 +33,7 @@ Vue.component('folder', {
                     createElement (
                         'i',
                         {
-                            'class': 'icon ' + (item.isDir ? 'icon-folder' : 'icon-doc-text')
+                            'class': 'icon ' + (!item.isDir ? 'icon-doc-text' : (item.expand ? 'icon-archive' : 'icon-folder'))
                         }
                     ),
                     item.name
@@ -50,7 +50,9 @@ Vue.component('folder', {
         let self = this;
         return function () {
             if (item.isDir) {
-                self.expandFolder(item);
+                if (!item.expand) {
+                    self.expandFolder(item);
+                }
             } else {
                 self.$emit("selectfile", item);
             }
@@ -58,6 +60,8 @@ Vue.component('folder', {
     },
 
     expandFolder: function (item) {
+        item.expand = true;
+
         fs.readdir(item.path, (err, files) => {
             if (!files || files.length === 0) {
                 return;
@@ -68,7 +72,7 @@ Vue.component('folder', {
             files.forEach(function (file) {
                 let filePath = path.join(item.path, file);
                 let isDir = fs.lstatSync(filePath).isDirectory();
-                children.push({ name: file, path: filePath, isDir: isDir, children: []});
+                children.push({ name: file, path: filePath, isDir: isDir, expand: false, children: []});
             });
 
             item.children = children;

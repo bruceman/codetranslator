@@ -10,7 +10,6 @@ const propertyEditor = require('./util/property-editor');
 //config dir path
 const configPath = path.join(__dirname, '../conf');
 const transDir = path.join(configPath, 'translation')
-const extension = config.translation.extension || '.txt';
 const applyTranslation = config.translation.apply || [];
 
 var vm = new Vue({
@@ -37,12 +36,8 @@ var vm = new Vue({
                 }
 
                 files.forEach((file) => {
-                    let ext = path.extname(file);
-                    if (ext == extension) {
-                        this.transFiles.push({name: file, path: path.join(transDir, file), checked: applyTranslation.indexOf(file) >= 0});
-                    }
+                    this.transFiles.push({name: file, path: path.join(transDir, file), checked: applyTranslation.indexOf(file) >= 0});
                 });
-                console.log(this.transFiles);
             });
         },
 

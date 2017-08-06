@@ -38,18 +38,36 @@
 }
 
 /** tabs */
+.tab-group {
+    position: fixed;
+    z-index: 100;
+    left: 220px;
+    right: 0;
+}
+
 .tab-content {
     height: 100%;
     position: relative;
     display: flex;
-    flex-direction: column
+    flex-direction: column;
+    padding-top: 25px;
 }
 
 .tab-content .source {
+    flex: 1;
     overflow-y: scroll;
 }
 
 .tab-content .target {
+    flex: 1;
     overflow-y: scroll;
     border-top: solid 4px #ddd;
+}
+
+.toolbar-footer {
+    padding: 0 10px;
+}
+
+.status {
+    float: right;
 }

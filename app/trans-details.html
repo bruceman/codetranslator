@@ -27,9 +27,12 @@
                     </tr>
                 </tbody>
             </table>
-            <div class="details">
-                <p>Fomrat Details:</p>
-                <pre>{{formatDetails}}</pre>
+            <div class="details" v-if="formatedDetails">
+                <p>Formated Details</p>
+                <pre>{{formatedDetails}}</pre>
+            </div>
+            <div class="no-items" v-else>
+                there are no translated items.
             </div>
         </div>
     </div>

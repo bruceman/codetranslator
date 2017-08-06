@@ -21,7 +21,7 @@
             <button class="btn btn-default" title="Open File" @click="openFiles">
               <span class="icon icon-doc-text"></span>
             </button>
-            <button class="btn btn-default" @click="refresh">
+            <button class="btn btn-default" title="Refresh App" @click="refresh">
               <span class="icon icon-cw"></span>
             </button>
              <button class="btn btn-default" title="Upload Custom Translation (.txt,.properties)" @click="upload">
@@ -48,7 +48,7 @@
           </span>
 
           <div class="btn-group">
-            <button class="btn btn-default" title="translation details" @click="openTransDetails">
+            <button class="btn btn-default" title="translate details" @click="openTransDetails">
               <span class="icon icon-popup icon-text"></span>
               Details
             </button>
@@ -92,7 +92,7 @@
 
           <!-- tabs -->
           <div class="pane">
-            <div class="tab-group">
+            <div class="tab-group" v-if="transItems && transItems.length>0">
               <div class="tab-item" :class="{active: item.id == selectedItem.id}" v-for="item in transItems" :key="item.id" @click="selectItem(item)">
                 <span class="icon icon-cancel icon-close-tab" @click.stop="closeItem(item)"></span>
                 {{item.name}} {{item.target && '- (Translated)'}}
@@ -110,6 +110,7 @@
         </div>
       </div>
       <footer class="toolbar toolbar-footer">
+        <span class="status"></span>
       </footer>
     </div>
 
