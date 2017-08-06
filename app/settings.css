@@ -32,3 +32,8 @@
 .setting-content .checkbox {
     margin: 0;
 }
+
+.setting-content .delete {
+    vertical-align: super;
+    padding-left: 8px;
+}

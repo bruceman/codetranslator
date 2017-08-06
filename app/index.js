@@ -12,6 +12,7 @@ const langModule = require('./langs');
 
 //config dir path
 const configPath = path.join(__dirname, '../conf');
+const customTranslationPath = path.join(configPath, "translation");
 
 let uniqueId = 1;
 
@@ -169,6 +170,26 @@ var vm = new Vue({
 
         refresh: function () {
             window.location.reload();
+        },
+
+        upload: function () {
+            let options = {
+                properties: ['openFile', 'multiSelections'], 
+                filters: [
+                    {name: 'Images', extensions: ['txt', 'properties']}
+                ]
+            };
+
+            dialog.showOpenDialog(options, (filePaths) => {
+                if (filePaths) {
+                    filePaths.forEach(this.saveCustomTranslation);
+                    console.log(filePaths)
+                }
+            });
+        },
+
+        saveCustomTranslation: function(filepath) {
+            fs.createReadStream(filepath).pipe(fs.createWriteStream(path.join(customTranslationPath, path.basename(filepath))));
         },
 
         openTransDetails: function () {

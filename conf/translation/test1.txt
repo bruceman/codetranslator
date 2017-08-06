@@ -1,0 +1,8 @@
+# comment
+english=英文
+
+happy birthday=生日快乐
+
+welcome 2017=欢迎来到2017
+
+good test

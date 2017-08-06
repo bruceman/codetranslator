@@ -57,6 +57,30 @@ var vm = new Vue({
             config.language.to = this.toLang;
             config.engine = this.defaultEngine;
             propertyEditor.write(path.join(configPath, "config.json"), config);
+        },
+
+        deleteFile: function (filepath) {
+            let flag = confirm("Do you want to delete this custom translation file?");
+            if (!flag) {
+                return;
+            }
+
+            fs.unlink(filepath, (err) => {
+                if (err) {
+                    alert("Failed to delete this file");
+                    return;
+                }
+
+                for(let i=0; i<this.transFiles.length; i++) {
+                    if (this.transFiles[i].path === filepath) {
+                        this.transFiles.splice(i,1);
+                        alert("Delete file successful");
+                        return;
+                    }
+                }
+
+            });
+
         }
     }
 

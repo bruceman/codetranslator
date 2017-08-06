@@ -31,6 +31,10 @@
                                 <label>
                                 <input type="checkbox" v-model="transFile.checked"> {{transFile.name}} - ( {{transFile.path}} )
                                 </label>
+                                <span class="delete" @click="deleteFile(transFile.path)">
+                                    <i class="icon icon-cancel-squared"></i>
+                                </span>
+                                
                             </div>
                         </div>
                     </div>
