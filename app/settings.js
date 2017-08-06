@@ -6,7 +6,6 @@ const langModule = require('./langs');
 const config = require('../conf/config.json');
 const propertyEditor = require('./util/property-editor');
 
-
 //config dir path
 const configPath = path.join(__dirname, '../conf');
 const transDir = path.join(configPath, 'translation')
