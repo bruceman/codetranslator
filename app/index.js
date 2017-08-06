@@ -19,6 +19,8 @@ function getUniqueId() {
     return uniqueId++;
 }
 
+let transDetailsWindow = null;
+
 var vm = new Vue({
     el: '#app',
     data: {
@@ -170,12 +172,22 @@ var vm = new Vue({
         },
 
         openTransDetails: function () {
-            let win = window.open("trans-details.html");
+            if (!this.selectedItem) {
+                alert("there are no translated file");
+                return;
+            }
+
+            // reuse the same window if possible
+            if (!transDetailsWindow || transDetailsWindow.closed) {
+                transDetailsWindow = window.open("trans-details.html");
+            }
+
+            transDetailsWindow.focus();
+            
             setTimeout(() => {
-                 win.postMessage(this.selectedItem);
+                 transDetailsWindow.postMessage(this.selectedItem);
             }, 200);
            
-            console.log(win);
         },
 
         openSettings: function () {

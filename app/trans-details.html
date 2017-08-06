@@ -5,12 +5,32 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Translate Details</title>
     <link rel="stylesheet" href="../libs/photon/css/photon.min.css">
-    <link rel="stylesheet" href="settings.css">
+    <link rel="stylesheet" href="trans-details.css">
 </head>
 <body>
     <div id="app" class="window" v-cloak>
-        <div class="window-content">
-            {{details}}
+        <header>
+            <h4 style="margin: 10px;" v-if="transItem">Source File: {{transItem.path}}</h4>
+        </header>
+        <div v-if="transItem">
+            <table class="table-striped">
+                <thead>
+                    <tr>
+                    <th>Original</th>
+                    <th>Translated</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(value,key) in transItem.details">
+                    <td>{{key}}</td>
+                    <td>{{value}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="details">
+                <p>Fomrat Details:</p>
+                <pre>{{formatDetails}}</pre>
+            </div>
         </div>
     </div>
     

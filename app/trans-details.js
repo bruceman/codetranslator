@@ -16,15 +16,29 @@ const applyTranslation = config.translation.apply || [];
 var vm = new Vue({
     el: '#app',
     data: {
-        details: ""
+        transItem: null,
+        formatedDetails: ""
     },
     mounted: function () {
-        var self = this;
-        window.addEventListener('message', function(event) {
-            console.log(event.data)
+        window.addEventListener('message', (event) => {
+            this.transItem = event.data;
+            this.formatDetails = this.formatDetails(this.transItem.details);
+            console.log(event.data);
         });
     },
     methods: {
+        formatDetails: function(details) {
+            if (!details) {
+                return "";
+            }
+
+            let result = [];
+            for(let k in details) {
+                result.push(k + "=" + details[k]);
+            }
+
+            return result.join("\n");
+        }
     }
 
 });
