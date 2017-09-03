@@ -25,16 +25,22 @@
     vertical-align: middle;
 }
 
-.search {
+.search-box {
     padding: 0 10px;
     vertical-align: middle;
+    position: relative;
 }
 
-.search input {
+.search-input {
     border: solid 1px #c2c0c2;
     border-radius: 4px;
     padding: 1px 6px;
     width:280px;
+}
+/* search result */
+em.highlight {
+    background-color: greenyellow;
+    color: #333;
 }
 
 /** tabs */
@@ -71,3 +77,4 @@
 .status {
     float: right;
 }
+

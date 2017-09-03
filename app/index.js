@@ -3,6 +3,8 @@
 // All of the Node.js APIs are available in this process.
 const fs = require('fs');
 const path = require('path');
+const debounce = require('debounce');
+const findAndReplaceDOMText  = require('findandreplacedomtext');
 const electron = require('electron');
 const dialog = electron.remote.dialog;
 const folder = require('./folder');
@@ -10,12 +12,16 @@ const translation = require('./translation')
 const configure = require('./util/configure');
 const langModule = require('./langs');
 
+
 //config dir path
 const configPath = path.join(__dirname, '../conf');
 const customTranslationPath = path.join(configPath, "translation");
 
 let transDetailsWindow = null;
 let settingsWindow = null;
+
+//search instance
+let searchInstance = null;
 
 let uniqueId = 1;
 
@@ -37,7 +43,6 @@ var vm = new Vue({
         showTranslated: true
     },
     mounted: function () {
-        // todo
     },
     methods: {
         openFolders: function () {
@@ -221,9 +226,41 @@ var vm = new Vue({
             }
 
             settingsWindow.focus();
+        },
+
+        search: debounce(function(event) {
+            this.doTextSearch(event);
+        }, 200),
+
+        doTextSearch: function (event) {
+            if (!this.selectedItem) {
+                return;
+            }
+
+            if (searchInstance) {
+                try {
+                    searchInstance.revert();
+                } catch(err) {
+                    //ignore error
+                }
+                searchInstance =  null;
+            }
+
+            const searchText = event.target.value;
+
+            if (!searchText) {
+                return;
+            }
+
+            const regex = new RegExp(searchText, 'gi');
+            
+            searchInstance = findAndReplaceDOMText(document.getElementById('contents'), {
+                find: regex,
+                wrap: 'em',
+                wrapClass: 'highlight'
+            });
         }
 
     }
-
 });
 
