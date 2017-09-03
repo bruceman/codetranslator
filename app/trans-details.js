@@ -1,29 +1,28 @@
+const electron = require('electron');
+const clipboard = electron.remote.clipboard
+
 var vm = new Vue({
     el: '#app',
     data: {
-        transItem: null,
-        formatedDetails: ""
+        transItem: null
     },
     mounted: function () {
         window.addEventListener('message', (event) => {
             this.transItem = event.data;
-            this.formatedDetails = this.formatDetails(this.transItem.details);
-            console.log(event.data);
         });
     },
     methods: {
-        formatDetails: function(details) {
-            if (!details) {
-                return "";
+        copy: function () {
+            if (this.transItem && this.transItem.details) {
+                let details = this.transItem.details;
+                let result = [];
+                for(let k in details) {
+                    result.push(k + "=" + details[k]);
+                }
+                clipboard.writeText(result.join("\n"));
+                alert("trnaslate details have been copied to the clipboard");
             }
-
-            let result = [];
-            for(let k in details) {
-                result.push(k + "=" + details[k]);
-            }
-
-            return result.join("\n");
-        }
+        } 
     }
 
 });

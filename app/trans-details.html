@@ -9,8 +9,9 @@
 </head>
 <body>
     <div id="app" class="window" v-cloak>
-        <header>
-            <h4 style="margin: 10px;" v-if="transItem">Source File: {{transItem.path}}</h4>
+        <header class="header" v-if="transItem">
+            <span class="file">Path: {{transItem.path}}{{transItem.path}}</span>
+            <span class="copy" title="copy to clipboard" @click="copy">[ copy ]</span>
         </header>
         <div v-if="transItem">
             <table class="table-striped">
@@ -27,13 +28,9 @@
                     </tr>
                 </tbody>
             </table>
-            <div class="details" v-if="formatedDetails">
-                <p>Formated Details</p>
-                <pre>{{formatedDetails}}</pre>
-            </div>
-            <div class="no-items" v-else>
-                there are no translated items.
-            </div>
+        </div>
+        <div class="notes" v-if="!transItem">
+            Note: refresh page will loss the details data, please try reopen this dialog again.
         </div>
     </div>
     

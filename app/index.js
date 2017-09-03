@@ -64,7 +64,7 @@ var vm = new Vue({
         processFolder: function (filePath) {
             const index = filePath.lastIndexOf("/");
             const folderName = filePath.substr(index + 1);
-            this.transFolders.push({ name: folderName, path: filePath, isDir: true, children: [] });
+            this.transFolders.push({ name: folderName, path: filePath, isDir: true, expand: false, loaded:false, children: [] });
         },
 
         processFile: function (filePath) {

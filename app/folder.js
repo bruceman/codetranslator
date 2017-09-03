@@ -39,7 +39,7 @@ Vue.component('folder', {
                     item.name
                 ]
             ),
-            item.children.length > 0 ? item.children.map((child) => {
+            item.expand && item.children.length > 0 ? item.children.map((child) => {
                 return this.createNode(createElement, child, level+1);
             }) : null
         ]
@@ -52,6 +52,8 @@ Vue.component('folder', {
             if (item.isDir) {
                 if (!item.expand) {
                     self.expandFolder(item);
+                } else {
+                    self.collapseFolder(item);
                 }
             } else {
                 self.$emit("selectfile", item);
@@ -61,6 +63,13 @@ Vue.component('folder', {
 
     expandFolder: function (item) {
         item.expand = true;
+        
+        if (item.loaded) {
+            return;
+        }
+
+        // mark folder was loaded
+        item.loaded = true;
 
         fs.readdir(item.path, (err, files) => {
             if (!files || files.length === 0) {
@@ -77,6 +86,10 @@ Vue.component('folder', {
 
             item.children = children;
         });
+    },
+
+    collapseFolder: function (item) {
+        item.expand = false;
     }
 
   }
