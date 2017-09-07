@@ -10,7 +10,7 @@
 <body>
     <div id="app" class="window" v-cloak>
         <header class="header" v-if="transItem">
-            <span class="file">Path: {{transItem.path}}{{transItem.path}}</span>
+            <span class="file">Path: {{transItem.path}}</span>
             <span class="copy" title="copy to clipboard" @click="copy">[ copy ]</span>
         </header>
         <div v-if="transItem">

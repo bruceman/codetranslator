@@ -1,4 +1,6 @@
 .git
 .DS_Store
 node_modules/
-/codetranslator-darwin-x64/
+Code Translator-darwin-x64/
+codetranslator-darwin-x64/
+

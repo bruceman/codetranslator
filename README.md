@@ -1,11 +1,11 @@
 # codetranslator
 An utility tool for text translation in code
 
+## install dependencies firstly
+> npm install
+
 ## run app
 > npm run start
 
-## pack app
-> electron-packager . --overwrite --no-prune
-
-## install package tool
-> sudo npm install electron-packager -g
+## package app
+> npm run package
