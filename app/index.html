@@ -95,7 +95,7 @@
             <div class="tab-group" v-if="transItems && transItems.length>0">
               <div class="tab-item" :class="{active: item.id == selectedItem.id}" v-for="item in transItems" :key="item.id" @click="selectItem(item)">
                 <span class="icon icon-cancel icon-close-tab" @click.stop="closeItem(item)"></span>
-                {{item.name}} {{item.target && '- (Translated)'}}
+                {{item.name}}
               </div>
             </div>
             <div id="contents" class="tab-content" v-show="selectedItem">

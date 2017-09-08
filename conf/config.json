@@ -10,5 +10,5 @@
     "from": "ko",
     "to": "en"
   },
-  "engine": "custom"
+  "engine": "custom,google"
 }

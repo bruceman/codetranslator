@@ -51,6 +51,11 @@ em.highlight {
     right: 0;
 }
 
+.tab-item {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .tab-content {
     height: 100%;
     position: relative;
