@@ -7,6 +7,7 @@ const debounce = require('debounce');
 const findAndReplaceDOMText  = require('findandreplacedomtext');
 const electron = require('electron');
 const dialog = electron.remote.dialog;
+const ipcRenderer = electron.ipcRenderer;
 const folder = require('./folder');
 const translation = require('./translation')
 const configure = require('./util/configure');
@@ -23,12 +24,6 @@ let settingsWindow = null;
 //search instance
 let searchInstance = null;
 
-let uniqueId = 1;
-
-function getUniqueId() {
-    return uniqueId++;
-}
-
 var vm = new Vue({
     el: '#app',
     data: {
@@ -43,6 +38,9 @@ var vm = new Vue({
         showTranslated: true
     },
     mounted: function () {
+        ipcRenderer.on('configChanged', (event, config) => {
+            configure.config = config;
+        });
     },
     methods: {
         openFolders: function () {
@@ -68,7 +66,6 @@ var vm = new Vue({
         },
 
         processFile: function (filePath) {
-            console.log('process file: ' + filePath);
             let transItem = this.findTransItem(filePath);
             //file has been opened
             if (transItem) {
@@ -83,7 +80,7 @@ var vm = new Vue({
                 }
 
                 this.transItems.push({
-                    id: getUniqueId(), name: path.basename(filePath), path: filePath, ext: ext,
+                    name: path.basename(filePath), path: filePath, ext: ext,
                     source: data, target: ''
                 });
 
@@ -102,7 +99,7 @@ var vm = new Vue({
         },
 
         selectItem: function (item) {
-            if (this.selectedItem && this.selectedItem.id == item.id) {
+            if (this.selectedItem && this.selectedItem.path == item.path) {
                 return;
             }
 
@@ -168,7 +165,7 @@ var vm = new Vue({
                 item.details = result.details;
                 console.log(result);
                 
-                if (this.selectedItem.id == item.id) {
+                if (this.selectedItem.path == item.path) {
                     const targetEditor = document.getElementById("targetEditor");
                     targetEditor.innerText = item.target || item.source;
                     hljs.highlightBlock(targetEditor);

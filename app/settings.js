@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const electron = require('electron');
+const ipcRenderer = electron.ipcRenderer;
 const translation = require('./translation')
 const langModule = require('./langs');
 const config = require('../conf/config.json');
@@ -10,6 +11,7 @@ const propertyEditor = require('./util/property-editor');
 const configPath = path.join(__dirname, '../conf');
 const transDir = path.join(configPath, 'translation')
 const applyTranslation = config.translation.apply || [];
+
 
 var vm = new Vue({
     el: '#app',
@@ -51,6 +53,7 @@ var vm = new Vue({
             config.language.to = this.toLang;
             config.engine = this.defaultEngine;
             propertyEditor.write(path.join(configPath, "config.json"), config);
+            ipcRenderer.send('configChanged', config);
         },
 
         deleteFile: function (filepath) {

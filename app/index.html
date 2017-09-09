@@ -4,8 +4,6 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Code Translator</title>
-
-    <!-- Photon.css -->
     <link rel="stylesheet" href="../libs/photon/css/photon.min.css">
     <link rel="stylesheet" href="../libs/highlight/styles/default.css">
     <link rel="stylesheet" href="index.css">
@@ -76,7 +74,7 @@
           <div class="pane pane-sm sidebar">
             <nav class="nav-group">
               <h5 class="nav-group-title">Files</h5>
-              <span class="nav-group-item" :class="{active: item.id == selectedItem.id}" v-for="item in transItems" :key="item.id" :title="item.name" @click="selectItem(item)">
+              <span class="nav-group-item" :class="{active: item.path == selectedItem.path}" v-for="item in transItems" :key="item.path" :title="item.name" @click="selectItem(item)">
                 <span class="icon icon-doc-text"></span>
                 {{item.name}}
               </span>
@@ -93,7 +91,7 @@
           <!-- tabs -->
           <div class="pane">
             <div class="tab-group" v-if="transItems && transItems.length>0">
-              <div class="tab-item" :class="{active: item.id == selectedItem.id}" v-for="item in transItems" :key="item.id" @click="selectItem(item)">
+              <div class="tab-item" :class="{active: item.path == selectedItem.path}" v-for="item in transItems" :key="item.path" @click="selectItem(item)">
                 <span class="icon icon-cancel icon-close-tab" @click.stop="closeItem(item)"></span>
                 {{item.name}}
               </div>

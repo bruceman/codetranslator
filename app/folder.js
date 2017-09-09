@@ -1,7 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 
-
+/**
+ * implement hierachy folder tree
+ */
 Vue.component('folder', {
   render: function (createElement) {
     return this.createNode(createElement, this.item, 0);
